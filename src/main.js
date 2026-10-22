@@ -1,4 +1,4 @@
-import WebTorrent from 'webtorrent';
+import WebTorrent from 'webtorrent/dist/webtorrent.min.js';
 import { safeFilename, validateMagnet } from './magnet.js';
 import './style.css';
 
@@ -113,6 +113,17 @@ form.addEventListener('submit', async (event) => {
 
   try {
     const torrent = thisClient.add(magnet, { announce: TRACKERS });
+    torrent.on('warning', (warning) => {
+      if (client !== thisClient) return;
+      peerDetail.textContent = warning.message;
+    });
+    torrent.on('noPeers', (announceType) => {
+      if (client !== thisClient) return;
+      progressStatus.textContent = 'No browser-compatible peers yet…';
+      peerDetail.textContent = announceType === 'tracker'
+        ? 'The trackers returned no WebRTC peers. Ordinary BitTorrent peers are not reachable from a web page.'
+        : `No peers found through ${announceType}.`;
+    });
     torrent.on('wire', () => {
       if (client !== thisClient) return;
       progressStatus.textContent = 'Peer found—fetching metadata…';
