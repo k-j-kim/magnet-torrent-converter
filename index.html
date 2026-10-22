@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Convert a magnet link into a .torrent metadata file entirely in your browser." />
+    <meta name="theme-color" content="#080a0f" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <title>Magnet → Torrent</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to converter</a>
+
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Magnet to Torrent home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M6 3v8a6 6 0 0 0 12 0V3M4 3h4m8 0h4M6 7h4m4 0h4" /></svg>
+        </span>
+        <span>Magnet <b>→</b> Torrent</span>
+      </a>
+      <span class="privacy-pill"><span aria-hidden="true">●</span> Runs in your browser</span>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="hero" aria-labelledby="page-title">
+        <div class="eyebrow"><span>✦</span> local conversion <span>✦</span></div>
+        <h1 id="page-title">Turn a magnet link into a<br /><em>.torrent file</em></h1>
+        <p class="lede">Paste a magnet link. We fetch its metadata peer-to-peer and package it as a standard torrent file—without uploading anything.</p>
+      </section>
+
+      <section class="converter" aria-labelledby="converter-title">
+        <h2 id="converter-title" class="visually-hidden">Magnet link converter</h2>
+        <form id="convert-form" novalidate>
+          <div class="field-heading">
+            <label for="magnet-input">Magnet link</label>
+            <button id="paste-button" class="text-button" type="button" title="Paste from clipboard">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M9 5h6m-5-2h4a1 1 0 0 1 1 1v2H9V4a1 1 0 0 1 1-1Z"/><rect x="6" y="5" width="12" height="16" rx="2"/></svg>
+              Paste
+            </button>
+          </div>
+          <p id="magnet-hint" class="hint">A magnet URI beginning with <code>magnet:?xt=urn:btih:</code></p>
+          <textarea id="magnet-input" name="magnet" rows="4" required spellcheck="false" autocapitalize="none" autocomplete="off" aria-describedby="magnet-hint magnet-error" aria-errormessage="magnet-error" placeholder="magnet:?xt=urn:btih:..."></textarea>
+          <p id="magnet-error" class="error-message"></p>
+
+          <div id="progress-panel" class="progress-panel" hidden>
+            <div class="progress-copy">
+              <span id="progress-status">Looking for peers…</span>
+              <span id="elapsed-time">0s</span>
+            </div>
+            <div class="progress-track" aria-hidden="true"><span></span></div>
+            <p id="peer-detail">Connecting through public WebTorrent trackers.</p>
+          </div>
+
+          <button id="convert-button" class="primary-button" type="submit">
+            <span class="button-label">Convert to .torrent</span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <button id="cancel-button" class="secondary-button" type="button" hidden>Cancel</button>
+        </form>
+        <p id="status" class="status" aria-live="polite" aria-atomic="true"></p>
+      </section>
+
+      <section class="feature-grid" aria-label="How it works">
+        <article>
+          <span class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="4" y="9" width="16" height="12" rx="2"/><path d="M8 9V6a4 4 0 0 1 8 0v3m-4 5v3"/></svg>
+          </span>
+          <h2>Private by design</h2>
+          <p>Your magnet link never touches our servers. All metadata is fetched directly in your browser.</p>
+        </article>
+        <article>
+          <span class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </span>
+          <h2>Peer-to-peer</h2>
+          <p>Uses WebTorrent-compatible trackers and peers to discover the torrent metadata.</p>
+        </article>
+        <article>
+          <span class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg>
+          </span>
+          <h2>Standard output</h2>
+          <p>Downloads a regular <code>.torrent</code> file compatible with desktop torrent clients.</p>
+        </article>
+      </section>
+
+      <aside class="note">
+        <span aria-hidden="true">i</span>
+        <p><strong>A quick note</strong>This tool can only retrieve metadata when a WebRTC-capable peer is online. Older torrents may time out. Use it only for content you have the right to access.</p>
+      </aside>
+    </main>
+
+    <footer>
+      <p>Open source. No tracking. No uploads.</p>
+      <a href="https://github.com/" target="_blank" rel="noreferrer">View on GitHub ↗</a>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
